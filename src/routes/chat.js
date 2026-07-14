@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { retrieve } from "../services/retrieve";
-import { generateAnswer } from "../services/generate";
+
+import { retrieve } from "../services/retrieve.js";
+import { generateAnswer } from "../services/generate.js";
 
 const router = Router();
 
