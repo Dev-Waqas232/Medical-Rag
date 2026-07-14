@@ -1,4 +1,4 @@
-import { getEmbedding } from "./embed.js";
+import { getEmbedding } from "./src/services/embed.js";
 
 (async () => {
   const vector = await getEmbedding("Ibuprofen interacts with blood thinners");

@@ -1,14 +1,19 @@
-// generate.js
-import { getEmbedding } from "./embed.js";
+import { getEmbedding } from "./src/services/embed.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import pg from "pg";
 import { config } from "dotenv";
+import OpenAI from "openai";
 
 config();
 
 const { Pool } = pg;
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+// const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+const groq = new OpenAI({
+  apiKey: process.env.GROQ_API_KEY,
+  baseURL: "https://api.groq.com/openai/v1",
+});
 
 const question = process.argv[2] || "What increases bleeding risk?";
 
@@ -46,9 +51,15 @@ Answer:`;
 }
 
 async function generate(prompt) {
-  const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
-  const result = await model.generateContent(prompt);
-  return result.response.text();
+  // const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
+  // const result = await model.generateContent(prompt);
+  // return result.response.text();
+
+  const completion = await groq.chat.completions.create({
+    model: "llama-3.3-70b-versatile",
+    messages: [{ role: "user", content: prompt }],
+  });
+  return completion.choices[0].message.content;
 }
 
 async function run() {

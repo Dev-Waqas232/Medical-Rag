@@ -1,5 +1,4 @@
-// query.js
-import { getEmbedding } from "./embed.js";
+import { getEmbedding } from "./src/services/embed.js";
 import pg from "pg";
 import { config } from "dotenv";
 
