@@ -6,7 +6,7 @@ import { getEmbedding } from "./embed.js";
 const { Pool } = pg;
 const pool = new Pool({ connectionString: env.databaseUrl });
 
-export async function retrieve(question, k = 3) {
+export async function retrieve(question, k = 2) {
   const queryVector = await getEmbedding(question);
   const vectorStr = `[${queryVector.join(",")}]`;
 
