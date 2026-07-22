@@ -9,7 +9,8 @@
     "seed:drugs": "node src/scripts/seed-drugs.js",
     "db:migrate": "prisma migrate dev",
     "db:reset": "prisma migrate reset",
-    "db:generate": "prisma generate"
+    "db:generate": "prisma generate",
+    "data:ingestion": "node src/scripts/data-ingestion-pipeline.js"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,7 @@
   "type": "module",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "@prisma/adapter-pg": "^7.9.0",
     "@prisma/client": "^7.8.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",

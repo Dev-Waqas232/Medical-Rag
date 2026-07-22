@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Drug {
+  id               String   @id
+  genericName      String?  @map("generic_name")
+  brandName        String?  @map("brand_name")
+  substanceName    String?  @map("substance_name")
+  pharmClassEpc    String?  @map("pharm_class_epc")
+  rxcui            String[]
+  route            String?
+  manufacturerName String?  @map("manufacturer_name")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  chunks Chunk[]
+
+  @@map("drugs")
+}
+
+model Chunk {
+  id          Int                          @id @default(autoincrement())
+  content     String
+  embedding   Unsupported("vector(3072)")?
+  section     String
+  sourceField String?                      @map("source_field")
+
+  drugId String @map("drug_id")
+  drug   Drug   @relation(fields: [drugId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([drugId])
+  @@index([section])
+  @@map("chunks")
+}
